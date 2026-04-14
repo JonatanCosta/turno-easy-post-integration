@@ -51,6 +51,9 @@ jobs:
   frontend:
     name: Vitest (React)
     runs-on: ubuntu-latest
+    env:
+      # laravel-vite-plugin refuses the Vitest dev server in CI unless bypassed or assets are pre-built for prod.
+      LARAVEL_BYPASS_ENV_CHECK: '1'
     steps:
       - uses: actions/checkout@v6
 

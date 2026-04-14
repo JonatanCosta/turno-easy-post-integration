@@ -9,6 +9,12 @@ class EasyPostAddressApiTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed();
+    }
+
     public function test_get_addresses_without_easypost_integration_returns_422(): void
     {
         $this->postJson('/api/auth/register', [
