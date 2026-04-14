@@ -21,12 +21,12 @@ jobs:
     name: PHPUnit (Laravel)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: mbstring, xml, ctype, dom, fileinfo, openssl, pdo, sqlite, tokenizer
           coverage: none
 
@@ -37,7 +37,7 @@ jobs:
         run: cp .env.example .env && php artisan key:generate --force
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: npm
@@ -52,10 +52,10 @@ jobs:
     name: Vitest (React)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: npm
