@@ -33,6 +33,5 @@
         <env name="TELESCOPE_ENABLED" value="false" force="true"/>
         <env name="NIGHTWATCH_ENABLED" value="false" force="true"/>
         <env name="JWT_SECRET" value="test-jwt-secret-key-minimum-32-characters-long" force="true"/>
-        <env name="EASYPOST_API_KEY" value="test_easypost_key" force="true"/>
     </php>
 </phpunit>

@@ -62,7 +62,7 @@ docker compose exec -T app php artisan jwt:secret --force
 npm run build
 ```
 
-Open **`http://localhost:8080`** (or your `HTTP_PORT`). Set **`EASYPOST_API_KEY`** in `.env` before purchasing labels ([EasyPost](https://www.easypost.com/) test keys avoid charges).
+Open **`http://localhost:8080`** (or your `HTTP_PORT`). In the app, use **Integrations** to save your [EasyPost](https://www.easypost.com/) **test** API key before purchasing labels (test keys avoid charges).
 
 ---
 
@@ -110,7 +110,7 @@ If you prefer not to use `first-install`:
 
 6. **Open the app** at `http://localhost:8080` (or the port in `HTTP_PORT`).
 
-7. **EasyPost:** set `EASYPOST_API_KEY` in `.env` to a valid [EasyPost](https://www.easypost.com/) **test** key before purchasing labels. Test keys avoid charges; production labels cost money.
+7. **EasyPost:** save your API key under **Integrations** in the UI (it is stored per user). Use a [EasyPost](https://www.easypost.com/) **test** key while developing (no carrier charges; production labels cost money).
 
 ### Database (Docker vs GUI clients)
 

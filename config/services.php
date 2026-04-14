@@ -36,7 +36,6 @@ return [
     ],
 
     'easypost' => [
-        'key' => env('EASYPOST_API_KEY'),
         /** Call POST /addresses with verify before shipment (extra API calls; improves deliverability). */
         'verify_addresses' => env('EASYPOST_VERIFY_ADDRESSES', false),
     ],
