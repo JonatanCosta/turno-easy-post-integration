@@ -2,7 +2,7 @@
 
 Laravel 13 API with a React (Vite + Tailwind v4) SPA, PostgreSQL, Docker (PHP-FPM + Nginx), JWT authentication, SaaS-style plans with monthly label limits, and EasyPost as the first shipping-label integration behind a pluggable contract.
 
-This project follows the take-home brief in `project-init.md` (React.js web, backend-only EasyPost calls). Local development uses **PostgreSQL** and **Redis** in Docker.
+**EasyPost** is called **only from Laravel**; the SPA talks to the API, not to EasyPost. Local development uses **PostgreSQL** and **Redis** in Docker.
 
 ---
 
@@ -164,6 +164,12 @@ MySQL remains a fine choice for many apps; here Postgres aligns with the brief a
 7. **Observability:** export **metrics**, **distributed traces**, and **logs** to an **APM**; aggregate logs in **Elasticsearch/OpenSearch + Kibana** (or a managed equivalent), with **alerts** on error rates, latency, and queue depth.
 8. **Pipeline quality:** run **backend and frontend tests in parallel** in CI, cache dependencies, and keep **Git history** and branching discipline healthy (squash/merge strategies, smaller PRs) so the repo does not become a bottleneck as the team grows.
 9. **UX:** improve the **shipping label form** (address autocomplete, validation hints, saved addresses) so users fill addresses faster and with fewer EasyPost validation errors.
+
+**Additional (security hardening):**
+
+1. **Plan limit race (TOCTOU):** close the gap between “check monthly count” and “create/purchase label” (e.g. **transaction + row lock** on the user or plan row, or an **atomic counter**) so concurrent requests cannot exceed the plan’s monthly label cap.
+2. **API rate limiting:** add Laravel **`throttle`** (or equivalent) on **login/register** and **label quote/purchase** routes to limit brute force, abuse, and accidental or malicious **EasyPost cost** spikes.
+3. **Token storage / XSS surface:** today the SPA keeps the JWT in **`localStorage`**; longer term prefer **HttpOnly** cookies (with **CSRF** protection for same-site requests) and a tight **Content-Security-Policy**, since any XSS can steal a bearer token and act as the user.
 
 ---
 
