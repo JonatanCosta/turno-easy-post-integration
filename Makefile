@@ -1,7 +1,7 @@
 COMPOSE := docker compose
 APP := $(COMPOSE) exec -T app
 
-.PHONY: up down build shell in in-pick services migrate fresh seed test test-unit test-frontend npm-install npm-dev pint supervisor-status first-install
+.PHONY: up down build shell in in-pick services migrate fresh seed test test-unit test-frontend npm-install npm-build npm-dev pint supervisor-status first-install
 
 up:
 	$(COMPOSE) up -d
@@ -55,6 +55,9 @@ test-frontend:
 npm-install:
 	npm ci
 
+npm-build:
+	npm run build
+
 npm-dev:
 	npm run dev
 
@@ -66,10 +69,11 @@ supervisor-status:
 
 first-install:
 	@if [ ! -f .env ]; then cp .env.example .env && echo "Created .env from .env.example"; else echo ".env already exists; skipping copy"; fi
-	@bash -lc 'set -e; cd "$(CURDIR)"; export NVM_DIR="$${NVM_DIR:-$$HOME/.nvm}"; [ -s "$$NVM_DIR/nvm.sh" ] || { echo "nvm not found at $$NVM_DIR/nvm.sh"; exit 1; }; . "$$NVM_DIR/nvm.sh"; nvm use && npm install'
+	@bash -lc 'set -e; cd "$(CURDIR)"; export NVM_DIR="$${NVM_DIR:-$$HOME/.nvm}"; [ -s "$$NVM_DIR/nvm.sh" ] || { echo "nvm not found at $$NVM_DIR/nvm.sh"; exit 1; }; . "$$NVM_DIR/nvm.sh"; nvm use && npm install && npm run build'
 	$(COMPOSE) build
 	$(COMPOSE) up -d
 	$(APP) composer install --no-interaction --prefer-dist
 	$(APP) php artisan key:generate --force
+	$(APP) php artisan jwt:secret --force
 	$(APP) php artisan migrate --force --seed
 	@echo "first-install finished. App URL (default): http://localhost:8080"
