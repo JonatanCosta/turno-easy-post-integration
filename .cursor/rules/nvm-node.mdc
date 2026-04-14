@@ -1,0 +1,22 @@
+---
+description: Use project Node version via NVM before any npm/node commands
+globs: "**/*"
+---
+
+# Node commands and NVM
+
+When running **npm**, **npx**, **node**, or **vite** in the terminal for this repository (install, build, test, dev), do **not** assume a global Node matches the project.
+
+1. `cd` to the repository root (where `.nvmrc` lives).
+2. Load NVM and select the version from `.nvmrc`, then run the command. Example for zsh/bash:
+
+```bash
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+nvm use
+npm run build
+```
+
+3. Prefer this pattern over pulling ad-hoc `node:*` Docker images for routine frontend tasks when the user’s environment has NVM/Node available.
+
+If `nvm use` fails, suggest `nvm install` first (reads `.nvmrc`).

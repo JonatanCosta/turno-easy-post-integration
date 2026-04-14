@@ -1,0 +1,10 @@
+---
+description: English-only product and code conventions for this repository
+globs: "**/*"
+---
+
+# English only
+
+- All user-visible UI copy, validation messages, API JSON messages, and emails must be written in **English**.
+- Code identifiers (classes, methods, variables, routes, config keys), database seed text, migrations comments if any, commit messages, and `README` must use **English**.
+- Do not add Portuguese (or other non-English) strings to the codebase, tests, or documentation files in this repository.
