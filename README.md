@@ -53,14 +53,7 @@ From the repository root, with **NVM** loaded and the project Node version activ
 make first-install
 ```
 
-This target: copies **`.env`** from `.env.example` if `.env` is missing, runs **`npm install`** on the host, **`docker compose build`**, **`docker compose up -d`**, **`composer install`** inside `app`, **`php artisan key:generate`**, and **`php artisan migrate --seed`** (database schema + seed data).
-
-Then finish local setup:
-
-```bash
-docker compose exec -T app php artisan jwt:secret --force
-npm run build
-```
+This target: copies **`.env`** from `.env.example` if `.env` is missing; on the host (with NVM) runs **`npm install`** and **`npm run build`**; then **`docker compose build`**, **`docker compose up -d`**, **`composer install`** inside `app`, **`php artisan key:generate`**, **`php artisan jwt:secret --force`** (writes **`JWT_SECRET`** to `.env`), and **`php artisan migrate --seed`** (database schema + seed data).
 
 Open **`http://localhost:8080`** (or your `HTTP_PORT`). In the app, use **Integrations** to save your [EasyPost](https://www.easypost.com/) **test** API key before purchasing labels (test keys avoid charges).
 
@@ -191,10 +184,11 @@ MySQL remains a fine choice for many apps; here Postgres aligns with the brief a
 | `make test-unit` | Run PHPUnit Unit suite |
 | `make test-frontend` | Run Vitest on the host (`npm run test`) |
 | `make npm-install` | `npm ci` on the host (requires `nvm use`) |
+| `make npm-build` | `npm run build` on the host (Vite production assets) |
 | `make npm-dev` | Vite dev server on the host (proxies `/api` to port 8080) |
 | `make pint` | Laravel Pint |
 | `make supervisor-status` | Supervisor status (`php-fpm` + `laravel-worker`) in `app` |
-| `make first-install` | First-time bootstrap (see Quick start) |
+| `make first-install` | First-time bootstrap (see Quick start): includes **`jwt:secret`** and **`npm run build`**. |
 
 The **`app`** image runs **Supervisord** as PID 1: **`php-fpm`** and **`laravel-worker`** (`php artisan queue:work redis`). PHPUnit uses **`QUEUE_CONNECTION=sync`**, so the worker stays idle during tests.
 
